@@ -19,7 +19,12 @@
     "webpack-cli": "^4.1.0"
   },
   "dependencies": {
-    "mithril": "^2.0.4"
+    "css-loader": "^5.0.1",
+    "lodash": "^4.17.20",
+    "mithril": "^2.0.4",
+    "sass": "^1.29.0",
+    "sass-loader": "^10.0.5",
+    "style-loader": "^2.0.0"
   },
   "description": "My webpack project"
 }
