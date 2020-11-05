@@ -1,15 +1,10 @@
-# 🚀 Welcome to your new awesome project!
+# Conway's game of life
 
-This project has been created using **webpack scaffold**, you can now run
+This is a simple js version written in mithril.js.
 
-```
-npm run build
-```
+## Screenshot
 
-or
+![Screenshot](/screenshot.png?raw=true "Screenshot")
+## License
 
-```
-yarn build
-```
-
-to bundle your application
+MIT
