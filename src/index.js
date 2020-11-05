@@ -1,17 +1,13 @@
 import m from 'mithril';
 import chunk from 'lodash/chunk';
+import fill from 'lodash/fill';
 import './style.scss';
 
-var timer;
-
+let timer;
 const root = document.getElementById('app');
 const N = 50;
-let MAP = []
-for (let i = 0; i < N * N; i++) {
-    MAP[i] = 0
-}
 const ST = {
-    world: chunk(MAP, N)
+    world: chunk(fill(Array(N*N), 0), N)
 }
 
 const Cell = {
