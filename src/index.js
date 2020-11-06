@@ -33,11 +33,10 @@ const Cell = {
         })
         return allPosibleValues.filter(v => v != undefined);
     },
-    view: (vn) => {
-        const { status } = vn.attrs;
+    view: ({ attrs: { status, x, y } } ) => {
+
         return m('.cell-wrapper', {
             onclick: () => {
-                const {x, y, status} = vn.attrs
                 ST.world[x][y] = status === 1 ? 0 : 1
             }
         },!!status ? m('div.cell.alive') : m('div.cell.dead'))
