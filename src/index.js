@@ -31,7 +31,9 @@ const Cell = {
                 allPosibleValues.push(0)
             }
         })
-        return allPosibleValues.filter((v) => v !== undefined)
+        return allPosibleValues.filter((v) => {
+            return v !== undefined
+        })
     },
     view: ({ attrs: { status, x, y } }) => {
         return m(
@@ -57,7 +59,9 @@ const World = {
         const next = ST.world.map((row, x) => {
             return row.map((col, y) => {
                 const res = Cell.neighbors(x, y)
-                const a_cnt = res.filter((i) => i === 1).length
+                const a_cnt = res.filter((i) => {
+                    return i === 1
+                }).length
                 if (col === 0) {
                     if (a_cnt === 3) {
                         return 1
@@ -74,18 +78,19 @@ const World = {
 
         ST.world = next
     },
-    view: () =>
-        m(
+    view: () => {
+        return m(
             '.world',
-            ST.world.map((row, x) =>
-                m(
+            ST.world.map((row, x) => {
+                return m(
                     '.row',
-                    row.map((col, y) =>
-                        m(Cell, { status: col, world: ST.world, x, y })
-                    )
+                    row.map((col, y) => {
+                        return m(Cell, { status: col, world: ST.world, x, y })
+                    })
                 )
-            )
-        ),
+            })
+        )
+    },
 }
 
 const Observer = {
@@ -95,9 +100,11 @@ const Observer = {
                 'button',
                 {
                     onclick: () => {
-                        ST.world = ST.world.map((x) =>
-                            x.map(() => Math.round(Math.random()))
-                        )
+                        ST.world = ST.world.map((x) => {
+                            return x.map(() => {
+                                return Math.round(Math.random())
+                            })
+                        })
                     },
                 },
                 'RANDOM'
@@ -105,7 +112,9 @@ const Observer = {
             m(
                 'button',
                 {
-                    onclick: () => World.step(),
+                    onclick: () => {
+                        return World.step()
+                    },
                 },
                 'STEP'
             ),
@@ -130,7 +139,11 @@ const Observer = {
                 'button',
                 {
                     onclick: () => {
-                        ST.world = ST.world.map((x) => x.map(() => 0))
+                        ST.world = ST.world.map((x) => {
+                            return x.map(() => {
+                                return 0
+                            })
+                        })
                         if (timer) {
                             clearInterval(timer)
                             timer = null

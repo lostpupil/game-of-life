@@ -23,5 +23,6 @@ module.exports = {
         'no-dupe-else-if': 2,
         'no-duplicate-case': 2,
         'no-inner-declarations': 2,
+        'arrow-body-style': ['error', 'always'],
     },
 }
