@@ -31,12 +31,10 @@ const Cell = {
                 allPosibleValues.push(0)
             }
         })
-        return allPosibleValues.filter((v) => {
-            return v !== undefined
-        })
+        return allPosibleValues.filter((v) => v !== undefined)
     },
-    view: ({ attrs: { status, x, y } }) => {
-        return m(
+    view: ({ attrs: { status, x, y } }) =>
+        m(
             '.cell-wrapper',
             {
                 onclick: () => {
@@ -44,8 +42,7 @@ const Cell = {
                 },
             },
             !!status ? m('div.cell.alive') : m('div.cell.dead')
-        )
-    },
+        ),
 }
 
 // https://zh.wikipedia.org/wiki/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F
