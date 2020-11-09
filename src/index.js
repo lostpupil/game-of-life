@@ -1,28 +1,28 @@
-import m from 'mithril';
-import chunk from 'lodash/chunk';
-import fill from 'lodash/fill';
-import './style.scss';
+import m from 'mithril'
+import chunk from 'lodash/chunk'
+import fill from 'lodash/fill'
+import './style.scss'
 
-let timer;
-const root = document.getElementById('app');
-const N = 50;
+let timer
+const root = document.getElementById('app')
+const N = 50
 const ST = {
-    world: chunk(fill(Array(N*N), 0), N)
+    world: chunk(fill(Array(N * N), 0), N),
 }
 
 const Cell = {
     neighbors: (x, y) => {
         const allPosibleIndexes = [
-            [x-1, y-1],
-            [x-1, y],
-            [x-1, y+1],
-            [x, y-1],
-            [x, y+1],
-            [x+1, y-1],
-            [x+1, y],
-            [x+1, y+1],
-        ];
-        let allPosibleValues = [];
+            [x - 1, y - 1],
+            [x - 1, y],
+            [x - 1, y + 1],
+            [x, y - 1],
+            [x, y + 1],
+            [x + 1, y - 1],
+            [x + 1, y],
+            [x + 1, y + 1],
+        ]
+        let allPosibleValues = []
 
         allPosibleIndexes.forEach(([i, j]) => {
             try {
@@ -31,16 +31,19 @@ const Cell = {
                 allPosibleValues.push(0)
             }
         })
-        return allPosibleValues.filter(v => v != undefined);
+        return allPosibleValues.filter((v) => v !== undefined)
     },
-    view: ({ attrs: { status, x, y } } ) => {
-
-        return m('.cell-wrapper', {
-            onclick: () => {
-                ST.world[x][y] = status === 1 ? 0 : 1
-            }
-        },!!status ? m('div.cell.alive') : m('div.cell.dead'))
-    }
+    view: ({ attrs: { status, x, y } }) => {
+        return m(
+            '.cell-wrapper',
+            {
+                onclick: () => {
+                    ST.world[x][y] = status === 1 ? 0 : 1
+                },
+            },
+            !!status ? m('div.cell.alive') : m('div.cell.dead')
+        )
+    },
 }
 
 // https://zh.wikipedia.org/wiki/%E5%BA%B7%E5%A8%81%E7%94%9F%E5%91%BD%E6%B8%B8%E6%88%8F
@@ -51,10 +54,10 @@ const Cell = {
 
 const World = {
     step: () => {
-        const next = ST.world.map( (row, x) => {
-            return row.map( (col, y) => {
+        const next = ST.world.map((row, x) => {
+            return row.map((col, y) => {
                 const res = Cell.neighbors(x, y)
-                const a_cnt = res.filter( i => i === 1 ).length
+                const a_cnt = res.filter((i) => i === 1).length
                 if (col === 0) {
                     if (a_cnt === 3) {
                         return 1
@@ -68,64 +71,82 @@ const World = {
                 }
             })
         })
-        
+
         ST.world = next
     },
-    view: () => {
-        return m('.world', ST.world.map ( (row, x) => {
-            return m('.row', row.map ( (col, y) => {
-                return m(Cell, {status: col, world: ST.world, x, y})
-            }))
-        }))
-    }
+    view: () =>
+        m(
+            '.world',
+            ST.world.map((row, x) =>
+                m(
+                    '.row',
+                    row.map((col, y) =>
+                        m(Cell, { status: col, world: ST.world, x, y })
+                    )
+                )
+            )
+        ),
 }
-
 
 const Observer = {
     view: () => {
         return m('div.observer', [
-            m('button', {
-                onclick: () => {
-                    ST.world =  ST.world.map( x => x.map ( (y) => Math.round(Math.random())))
-                }
-            }, 'RANDOM'),
-            m('button', {
-                onclick: () => World.step()
-            }, 'STEP'),
-            m('button', {
-                onclick: () => {
-                    if(timer){
-                        clearInterval(timer);
-                        timer = null
-                    } else {
-                        timer = setInterval(() => {
-                            World.step()
-                            m.redraw()
-                        }, 500);
-                    }
-                }
-            }, 'AUTO'),
-            m('button', {
-                onclick: () => {
-                   ST.world =  ST.world.map( x => x.map ( (y) => 0))
-                   if (timer) {
-                       clearInterval(timer)
-                       timer = null
-                   }
-                }
-            }, 'CLEAR')
+            m(
+                'button',
+                {
+                    onclick: () => {
+                        ST.world = ST.world.map((x) =>
+                            x.map(() => Math.round(Math.random()))
+                        )
+                    },
+                },
+                'RANDOM'
+            ),
+            m(
+                'button',
+                {
+                    onclick: () => World.step(),
+                },
+                'STEP'
+            ),
+            m(
+                'button',
+                {
+                    onclick: () => {
+                        if (timer) {
+                            clearInterval(timer)
+                            timer = null
+                        } else {
+                            timer = setInterval(() => {
+                                World.step()
+                                m.redraw()
+                            }, 500)
+                        }
+                    },
+                },
+                'AUTO'
+            ),
+            m(
+                'button',
+                {
+                    onclick: () => {
+                        ST.world = ST.world.map((x) => x.map(() => 0))
+                        if (timer) {
+                            clearInterval(timer)
+                            timer = null
+                        }
+                    },
+                },
+                'CLEAR'
+            ),
         ])
-    }
+    },
 }
 
 const Universe = {
     view: () => {
-        return m('.wrapper', [
-            m('h1', "Game Of Life"),
-            m(World),
-            m(Observer)
-        ])
-    }
+        return m('.wrapper', [m('h1', 'Game Of Life'), m(World), m(Observer)])
+    },
 }
 
 m.mount(root, Universe)
