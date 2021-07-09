@@ -1,6 +1,8 @@
 # Conway's game of life
 
-This is a simple js version written in mithril.js.
+This is a simple js version written in mithril.js.   
+
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/lostpupil/game-of-life)
 
 ## Setup
 
